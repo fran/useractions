@@ -1,0 +1,10 @@
+; $Id: useractions.info,v 1 2009/12/2 06:52:14 fran Exp $
+name = User actions
+description = Create a block to define user actions
+package = Emergya custom 
+core = 6.x
+
+version = "6.x-2.6"
+core = "6.x"
+project = "User actions"
+

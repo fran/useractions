@@ -1,0 +1,132 @@
+<?php
+/**
+ * Hook theme.
+ * Define the templates to render the users actions
+ *
+ * @return array
+ * @author fran
+ **/
+function useractions_theme()
+{
+  return array(
+    'useractions_block_actions_autenticado' => array('arguments' => array('items'=> array())),
+  );
+}
+
+
+/**
+ * undocumented function
+ *
+ * @return void
+ * @author /bin/bash: niutil: command not found
+ **/
+ 
+ /*
+ * bloque 0 : User actions block
+ */
+function useractions_block($op = 'list', $delta = 0, $edit = array())
+{
+  global $user;
+  switch($op)
+    {
+    case 'list':
+      $blocks[0]['info'] = t('User actions: User actions');
+      return $blocks;
+    case 'view':
+      if ($delta == 0)
+      {
+        $block['subject'] = "";
+        $items['links'] = _useractions_get_actions();
+        $items['info'] = _useractions_get_userinfo();
+        $block['content'] = _useractions_block_actions($items);
+        return $block;
+      }
+    }  
+}
+
+
+
+/**
+ * Select the tpl.php file for the current user.
+ *
+ * @return $output: The hmtl code with the actions.
+ * @author fran
+ **/
+function _useractions_block_actions($items)
+{
+  global $user;
+  
+  /* Hasta nueva orden se queda asi
+  if ($user->uid == 1 || in_array('administrador', $user->roles)) {
+    $tpl = "_administrador";
+  }
+  else {
+    $tpl = "_autenticado";
+  } 
+  */
+
+  return theme('useractions_block_actions_autenticado', $items);
+}
+
+
+/**
+ * Generate the links to show in the action block
+ *
+ * @return $links
+ * @author fran
+ **/
+function _useractions_get_actions()
+{
+  $links = array();
+  
+  //@fran : esto debería de hacerse por interfaz.
+  $links[] = l('Añadir un evento', 'node/add/agenda');
+  $links[] = l('Crear una entrada de blog', 'node/add/blog');
+  $links[] = l('Crear un caso', 'node/add/caso');
+  $links[] = l('Crear una consulta', 'node/add/consulta');
+  $links[] = l('Añadir un documento', 'node/add/documento');
+  $links[] = l('Añadir un enlace', 'node/add/enlace');
+  $links[] = l('Proponer una idea', 'node/add/idea');
+  $links[] = l('Añadir una imagen', 'node/add/galeria');
+  $links[] = l('Crear una noticia', 'node/add/noticia');
+  $links[] = l('Crear un recurso general', 'node/add/otros');
+  $links[] = l('Crear una entrada en el foro', 'node/add/forum');
+  $links[] = l('Añadir un video', 'node/add/video');  
+  
+  return $links;
+}
+
+
+/**
+ * Get the user information to display
+ *
+ * @return $info
+ * @author fran
+ **/
+function _useractions_get_userinfo()
+{
+  global $user;
+  $info = array(
+    "name" => $user->name,
+    "image" => $user->picture,
+  );
+  
+  return $info;
+}
+
+/**
+ * return the HTML code of the actions block. Does nothing, el html will be use from 
+ * a template file (useractions_block_actions_autenticadoh.tpl.php)
+ *
+ * @return $output : html code 
+ * @author fran
+ **/
+ 
+function theme_useractions_block_actions_autenticado($item)
+{
+  $output = "<span>useractions.module theme_useractions_block_actions_autenticado</span>";
+  return $output;
+}
+
+
+
